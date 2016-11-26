@@ -1,0 +1,14 @@
+{
+    "name": "danielowens/aqua",
+    "description": "Simple, fast blogging in PHP7",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel Owens",
+            "email": "kyoji1@gmail.com"
+        }
+    ],
+    "require": {
+        "league/plates": "3.*",
+    }
+}
