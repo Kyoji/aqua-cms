@@ -2,6 +2,8 @@
 
 namespace Aqua;
 
+// All local values for now, who cares if it's public ;)
+
 class AquaPDO extends \PDO
 {
 
