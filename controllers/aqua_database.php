@@ -50,14 +50,35 @@ class MySQLDatabase implements Database
     {
         $this->mySQLPDO = new AquaPDO();
     }
-
     function getPosts( $type = 'post' )
     {
-        $pdo = $this->mySQLPDO;
+        $pdo = &$this->mySQLPDO;
+        $stmt = $pdo->prepare('SELECT * FROM posts WHERE type = :type');
+        $stmt->execute(['type' => $type]);
+        return $stmt->fetchAll(\PDO::FETCH_CLASS, 'Aqua\Post');
+    }
 
-        $stmt = $pdo->prepare('SELECT * WHERE type = :type');
-        $stmt = $pdo->exec( ['type' => 'post'] );
-        return $stmt;
+    function getPostBy($type = 'id', $query = '1')
+    {
+        $pdo = &$this->mySQLPDO;
+
+        $stmt = $pdo->prepare('SELECT * FROM posts WHERE ' . $type . ' = :query');
+        $stmt->execute(['query' => $query]);
+
+        return $stmt->fetchAll(\PDO::FETCH_CLASS, 'Aqua\Post');
+    }
+
+    function query($query, $fetch = ['FETCH_ASSOC', 'Aqua\Post'])
+    {
+        $pdo = &$this->mySQLPDO;
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();
+        if ($fetch[0] == 'FETCH_CLASS') {
+            return call_user_func_array([$stmt, "fetchAll"], [constant('\PDO::' . $fetch[0]), $fetch[1]]);
+        } else {
+            return call_user_func_array([$stmt, "fetchAll"], [constant('\PDO::' . $fetch[0])]);//$stmt->fetchAll( $fetch[0] );
+        }
+
     }
 
 }

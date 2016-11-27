@@ -14,7 +14,7 @@ include( 'controllers/aqua_database.php' );
 class Page {
     protected $title;
 
-    function __construct( $URI, $posts, $slugs )
+    function __construct($posts)
     {
 
         include( 'templates/page.php' );
@@ -24,10 +24,6 @@ class Page {
     {
         return $this->title;
     }
-}
-
-class foo extends Page {
-
 }
 
 
@@ -80,17 +76,19 @@ class Router {
 
 
 $route = new Router();
-$page = new Page( $route->URI, $posts, $slugs );
+//$page = new Page( $posts );
 //echo $route->getCurrentDir();
 //$page = new Page( $route->URI );
 
 
+//$pdo = new AquaPDO();
+//$foo_slug = 'foo';
+//$stmt = $pdo->prepare('SELECT * FROM posts WHERE slug = :foo_slug');
+//$stmt->execute(['foo_slug' => $foo_slug]);
 
-$pdo = new AquaPDO();
-$foo_slug = 'foo';
-$stmt = $pdo->prepare('SELECT * FROM posts WHERE slug = :foo_slug');
-$stmt->execute(['foo_slug' => $foo_slug]);
+$database = new MySQLDatabase();
+$posts = $database->query('SELECT * FROM posts', ['FETCH_CLASS', 'Aqua\Post']);
 
-while ($post = $stmt->fetchAll(\PDO::FETCH_CLASS, 'Aqua\Post') ) {
+foreach ($posts as $post) {
     print_r( $post );
 }
