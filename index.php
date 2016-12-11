@@ -1,5 +1,14 @@
 <?php
 /**
+ * Outline
+ * User vists website
+ * current URI determined from URL
+ * right-most slug checked against registered slugs
+ * if found, renders page using registered entity
+ * if not found, works left
+ * if no match, renders using default
+ */
+/**
  * Created by PhpStorm.
  * User: danielowens
  * Date: 11/19/16
@@ -8,6 +17,7 @@
 
 namespace Aqua;
 
+include( 'vendor/autoload.php' );
 include( 'models/post.php' );
 include( 'controllers/aqua_database.php' );
 
@@ -37,6 +47,7 @@ class Router {
         'isRoot' => NULL,
     ];
 
+    public $registered_slugs = [];
 
     function __construct()
     {
@@ -69,13 +80,19 @@ class Router {
         //$page = new Page( $this->URI );
     }
 
+    function registerSlug( $slug, $entity )
+    {
+        // Add registered slug to end of array
+        $this->registered_slugs[$slug] = $entity;
+    }
+
 }
 
 
-
-
-
 $route = new Router();
+$route->registerSlug( 'posts', 'Aqua\Post' );
+
+print_r($route->registered_slugs);
 //$page = new Page( $posts );
 //echo $route->getCurrentDir();
 //$page = new Page( $route->URI );
@@ -92,3 +109,4 @@ $posts = $database->query('SELECT * FROM posts', ['FETCH_CLASS', 'Aqua\Post']);
 foreach ($posts as $post) {
     print_r( $post );
 }
+

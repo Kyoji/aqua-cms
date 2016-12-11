@@ -73,12 +73,21 @@ class MySQLDatabase implements Database
         $pdo = &$this->mySQLPDO;
         $stmt = $pdo->prepare($query);
         $stmt->execute();
+
         if ($fetch[0] == 'FETCH_CLASS') {
             return call_user_func_array([$stmt, "fetchAll"], [constant('\PDO::' . $fetch[0]), $fetch[1]]);
         } else {
-            return call_user_func_array([$stmt, "fetchAll"], [constant('\PDO::' . $fetch[0])]);//$stmt->fetchAll( $fetch[0] );
+            return call_user_func_array([$stmt, "fetchAll"], [constant('\PDO::' . $fetch[0])]);
         }
 
     }
 
+    function getEnabledModules()
+    {
+        $pdo = &$this->mySQLPDO;
+        $stmt = $pdo->prepare( 'SELECT * FROM modules WHERE enabled = 1' );
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }
