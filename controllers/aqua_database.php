@@ -24,10 +24,10 @@ class AquaPDO extends \PDO
     function __construct()
     {
         $this->host = 'localhost';
-        $this->db = 'Aqua';
+        $this->db = 'aqua';
         $this->user = 'root';
         $this->pass = '';
-        $this->charset = 'utf8';
+        $this->charset = 'utf8mb4';
 
         $this->dsn = "mysql:host=$this->host;dbname=$this->db;charset=$this->charset";
 
@@ -53,7 +53,7 @@ class MySQLDatabase implements Database
     function getPosts( $type = 'post' )
     {
         $pdo = &$this->mySQLPDO;
-        $stmt = $pdo->prepare('SELECT * FROM posts WHERE type = :type');
+        $stmt = $pdo->prepare('SELECT * FROM aqua_posts WHERE type = :type');
         $stmt->execute(['type' => $type]);
         return $stmt->fetchAll(\PDO::FETCH_CLASS, 'Aqua\Post');
     }
@@ -62,7 +62,7 @@ class MySQLDatabase implements Database
     {
         $pdo = &$this->mySQLPDO;
 
-        $stmt = $pdo->prepare('SELECT * FROM posts WHERE ' . $type . ' = :query');
+        $stmt = $pdo->prepare('SELECT * FROM aqua_posts WHERE ' . $type . ' = :query');
         $stmt->execute(['query' => $query]);
 
         return $stmt->fetchAll(\PDO::FETCH_CLASS, 'Aqua\Post');

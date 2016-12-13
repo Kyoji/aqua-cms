@@ -8,12 +8,6 @@
  * if not found, works left
  * if no match, renders using default
  */
-/**
- * Created by PhpStorm.
- * User: danielowens
- * Date: 11/19/16
- * Time: 11:19 PM
- */
 
 namespace Aqua;
 
@@ -104,7 +98,7 @@ print_r($route->registered_slugs);
 //$stmt->execute(['foo_slug' => $foo_slug]);
 
 $database = new MySQLDatabase();
-$posts = $database->query('SELECT * FROM posts', ['FETCH_CLASS', 'Aqua\Post']);
+$posts = $database->query('SELECT * FROM aqua_posts', ['FETCH_CLASS', 'Aqua\Post']);
 
 foreach ($posts as $post) {
     print_r( $post );
