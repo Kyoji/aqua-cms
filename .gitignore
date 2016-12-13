@@ -9,4 +9,5 @@ vendor/
 # Phpstorm
 .idea
 
+.DS_store
 
