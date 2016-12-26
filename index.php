@@ -46,7 +46,6 @@ class Router {
     function __construct()
     {
         $this->populateURI();
-        print_r( $this->URI );
     }
 
     protected function populateURI() {
@@ -85,22 +84,19 @@ class Router {
 
 $route = new Router();
 $route->registerSlug( 'posts', 'Aqua\Post' );
+echo $route->URI['current'];
 
-print_r($route->registered_slugs);
 //$page = new Page( $posts );
 //echo $route->getCurrentDir();
 //$page = new Page( $route->URI );
 
-
 //$pdo = new AquaPDO();
 //$foo_slug = 'foo';
-//$stmt = $pdo->prepare('SELECT * FROM posts WHERE slug = :foo_slug');
-//$stmt->execute(['foo_slug' => $foo_slug]);
-
 $database = new MySQLDatabase();
-$posts = $database->query('SELECT * FROM aqua_posts', ['FETCH_CLASS', 'Aqua\Post']);
+$query = "SELECT * FROM aqua_posts WHERE post_slug = ".$route->URI['current'];
+echo $query;
+print_r($database->query($query));
+//$stmt = $pdo->prepare('SELECT * FROM posts WHERE slug = :foo_slug');
+//$stmt->execute(['foo_slug' => $route->URI['current']]);
 
-foreach ($posts as $post) {
-    print_r( $post );
-}
 
