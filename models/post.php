@@ -3,6 +3,7 @@
 namespace Aqua;
 
 class Post {
+
     public $post_name;
     public $post_content;
     public $post_author;

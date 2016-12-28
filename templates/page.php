@@ -1,9 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: danielowens
- * Date: 11/20/16
- * Time: 12:23 AM
+ *
+ *
  */
 
 ?>

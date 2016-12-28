@@ -16,9 +16,10 @@ class Router {
 
     public $registered_slugs = [];
 
-    function __construct()
+    function __construct( $database, $config )
     {
         $this->populateURI();
+        $this->route( $database, $config );
     }
 
     protected function populateURI() {
@@ -41,9 +42,26 @@ class Router {
 
     }
 
-    function route(  )
+    protected function route( $database, $config )
     {
-        //$page = new Page( $this->URI );
+        if( $this->URI['isRoot'] ) {
+            if( null !== $config->getRoute("root") ) {
+                include($config->getRoute("root"));
+            } else {
+                $posts = $database->getPosts();
+                foreach( $posts as $post ) {
+                    include( 'templates/partials/post.php' );
+                }
+            }
+        } else {
+            $post = $database->getPostBy('post_slug', $this->URI['current']);
+            if( \count($post) > 0 ) {
+                $page = new Page($post[0]);
+            } else {
+                include( $config->getRoute("404") );
+            }
+
+        }
     }
 
     function registerSlug( $slug, $entity )

@@ -11,34 +11,27 @@
 
 namespace Aqua;
 
-include( 'vendor/autoload.php' );
-include( 'models/post.php' );
-include( 'controllers/aqua_database.php' );
-include( 'controllers/aqua_router.php' );
-include( 'controllers/aqua_page.php' );
+final class App {
 
+    protected $database;
+    protected $router;
 
-$router = new Router();
-$database = new MySQLDatabase();
+    function __construct()
+    {
+        include( 'vendor/autoload.php' );
+        include( 'models/post.php' );
+        include( 'controllers/aqua_database.php' );
+        include( 'controllers/aqua_router.php' );
+        include( 'controllers/aqua_page.php' );
+        include( 'config.php' );
 
-if( $router->URI['isRoot'] ) {
-    $posts = $database->getPosts();
-    foreach ( $posts as $post ) {
-        echo $post->post_name;
+        $this->database = new MySQLDatabase( $aquaConfig->getDBConfig() );
+        $this->router = new Router( $this->database, $aquaConfig );
     }
-} else {
-    $post = $database->getPostBy('post_slug', $router->URI['current']);
-    $page = new Page($post[0]);
 }
+$aqua = new App();
 
-//$page = new Page( $posts );
-//echo $route->getCurrentDir();
-//$page = new Page( $route->URI );
 
-//$pdo = new AquaPDO();
-//$foo_slug = 'foo';
 
-// $stmt = $pdo->prepare('SELECT * FROM posts WHERE slug = :foo_slug');
-// $stmt->execute(['foo_slug' => $route->URI['current']]);
 
 

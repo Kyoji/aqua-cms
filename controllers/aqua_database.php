@@ -21,13 +21,13 @@ class AquaPDO extends \PDO
     ];
     protected $pdo;
 
-    function __construct()
+    function __construct( $dbValues )
     {
-        $this->host = 'localhost';
-        $this->db = 'aqua';
-        $this->user = 'root';
-        $this->pass = '';
-        $this->charset = 'utf8mb4';
+        $this->host = $dbValues['host'];
+        $this->db = $dbValues['db'];
+        $this->user = $dbValues['user'];
+        $this->pass = $dbValues['pass'];
+        $this->charset = $dbValues['charset'];
 
         $this->dsn = "mysql:host=$this->host;dbname=$this->db;charset=$this->charset";
 
@@ -46,9 +46,9 @@ class MySQLDatabase implements Database
 
     protected $mySQLPDO;
 
-    function __construct(  )
+    function __construct( $dbValues )
     {
-        $this->mySQLPDO = new AquaPDO();
+        $this->mySQLPDO = new AquaPDO( $dbValues );
     }
     function getPosts( $type = 'post' )
     {
