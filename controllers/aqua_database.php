@@ -53,8 +53,8 @@ class MySQLDatabase implements Database
     function getPosts( $type = 'post' )
     {
         $pdo = &$this->mySQLPDO;
-        $stmt = $pdo->prepare('SELECT * FROM aqua_posts WHERE type = :type');
-        $stmt->execute(['type' => $type]);
+        $stmt = $pdo->prepare('SELECT * FROM aqua_posts');
+        $stmt->execute();// $stmt->execute(['type' => $type]);
         return $stmt->fetchAll(\PDO::FETCH_CLASS, 'Aqua\Post');
     }
 

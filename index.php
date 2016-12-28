@@ -84,7 +84,19 @@ class Router {
 
 $route = new Router();
 $route->registerSlug( 'posts', 'Aqua\Post' );
-echo $route->URI['current'];
+$database = new MySQLDatabase();
+
+if( $route->URI['isRoot'] ) {
+    $posts = $database->getPosts();
+    foreach ( $posts as $post ) {
+        echo $post->post_name;
+    }
+} else {
+    $posts = $database->getPostBy('post_slug', $route->URI['current']);
+    foreach ( $posts as $post ) {
+        echo $post->post_name;
+    }
+}
 
 //$page = new Page( $posts );
 //echo $route->getCurrentDir();
@@ -92,11 +104,8 @@ echo $route->URI['current'];
 
 //$pdo = new AquaPDO();
 //$foo_slug = 'foo';
-$database = new MySQLDatabase();
-$query = "SELECT * FROM aqua_posts WHERE post_slug = ".$route->URI['current'];
-echo $query;
-print_r($database->query($query));
-//$stmt = $pdo->prepare('SELECT * FROM posts WHERE slug = :foo_slug');
-//$stmt->execute(['foo_slug' => $route->URI['current']]);
+
+// $stmt = $pdo->prepare('SELECT * FROM posts WHERE slug = :foo_slug');
+// $stmt->execute(['foo_slug' => $route->URI['current']]);
 
 
