@@ -55,7 +55,7 @@ class Router {
             }
         } else {
             $post = $database->getPostBy('post_slug', $this->URI['current']);
-            if( \count($post) > 0 ) {
+            if( count($post) > 0 ) {
                 $page = new Page($post[0]);
             } else {
                 include( $config->getRoute("404") );

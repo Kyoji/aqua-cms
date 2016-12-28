@@ -54,7 +54,7 @@ class MySQLDatabase implements Database
     {
         $pdo = &$this->mySQLPDO;
         $stmt = $pdo->prepare('SELECT * FROM aqua_posts');
-        $stmt->execute();// $stmt->execute(['type' => $type]);
+        $stmt->execute(); // $stmt->execute(['type' => $type]);
         return $stmt->fetchAll(\PDO::FETCH_CLASS, 'Aqua\Post');
     }
 

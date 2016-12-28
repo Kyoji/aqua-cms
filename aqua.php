@@ -19,11 +19,11 @@ final class App {
     function __construct()
     {
         include( 'vendor/autoload.php' );
-        include( 'models/post.php' );
         include( 'controllers/aqua_database.php' );
         include( 'controllers/aqua_router.php' );
         include( 'controllers/aqua_page.php' );
         include( 'config.php' );
+        include( 'models/post.php' );
 
         $this->database = new MySQLDatabase( $aquaConfig->getDBConfig() );
         $this->router = new Router( $this->database, $aquaConfig );
