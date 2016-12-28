@@ -9,4 +9,13 @@ class Post {
     public $post_date;
     public $post_slug;
     public $ID;
+
+    public function printName() {
+        echo $this->post_name;
+    }
+    
+    public function printContent() {
+        echo $this->post_content;
+    }
+
 }

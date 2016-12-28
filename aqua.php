@@ -14,22 +14,21 @@ namespace Aqua;
 include( 'vendor/autoload.php' );
 include( 'models/post.php' );
 include( 'controllers/aqua_database.php' );
+include( 'controllers/aqua_router.php' );
+include( 'controllers/aqua_page.php' );
 
 
-$route = new Router();
-$route->registerSlug( 'posts', 'Aqua\Post' );
+$router = new Router();
 $database = new MySQLDatabase();
 
-if( $route->URI['isRoot'] ) {
+if( $router->URI['isRoot'] ) {
     $posts = $database->getPosts();
     foreach ( $posts as $post ) {
         echo $post->post_name;
     }
 } else {
-    $posts = $database->getPostBy('post_slug', $route->URI['current']);
-    foreach ( $posts as $post ) {
-        echo $post->post_name;
-    }
+    $post = $database->getPostBy('post_slug', $router->URI['current']);
+    $page = new Page($post[0]);
 }
 
 //$page = new Page( $posts );

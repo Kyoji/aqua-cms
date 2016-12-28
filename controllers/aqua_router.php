@@ -2,6 +2,7 @@
 /**
  * Routing class for Aqua
  */
+namespace Aqua;
 
 class Router {
 
