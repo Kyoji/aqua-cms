@@ -20,7 +20,7 @@ class AquaConfig implements Config {
 
     function __construct()
     {
-        $this->templatesDir = "templates";
+        $this->templatesDir = "app/templates";
     }
 
     public function getRoute( $route )

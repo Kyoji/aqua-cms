@@ -13,23 +13,41 @@ namespace Aqua;
 
 final class App {
 
-    protected $database;
-    protected $router;
+    public $database;
+    public $router;
 
     function __construct()
     {
-        include( 'vendor/autoload.php' );
-        include( 'controllers/aqua_database.php' );
-        include( 'controllers/aqua_router.php' );
-        include( 'controllers/aqua_page.php' );
-        include( 'config.php' );
-        include( 'models/post.php' );
+        include('app/vendor/autoload.php');
+        include('app/controllers/aqua_database.php');
+        include('app/controllers/aqua_router.php');
+        include('app/controllers/aqua_page.php');
+        include('app/config.php');
+        include('app/models/post.php');
+        include('app/controllers/aqua_session.php');
+
+        $this->session = \Aqua\Session::getInstance();
+//        $this->session->__set("logged_in", true);
+
+//        echo $this->session->__get("logged_in");
 
         $this->database = new MySQLDatabase( $aquaConfig->getDBConfig() );
         $this->router = new Router( $this->database, $aquaConfig );
+
+    }
+
+    public static function getInstance()
+    {
+        if ( !isset(self::$instance))
+        {
+            self::$instance = new self;
+        }
+
+        return self::$instance;
     }
 }
 $aqua = new App();
+
 
 
 

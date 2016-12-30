@@ -6,7 +6,7 @@
  * @author Daniel Owens
  */
 
-include( 'controllers/aqua_config.php' );
+include('controllers/aqua_config.php');
 
 $aquaConfig = new AquaConfig();
 $dbValues = [

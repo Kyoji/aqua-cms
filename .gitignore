@@ -4,7 +4,7 @@
 # Composer
 composer.json
 composer.lock
-vendor/
+app/vendor/
 
 # Phpstorm
 .idea

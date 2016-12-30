@@ -44,13 +44,14 @@ class Router {
 
     protected function route( $database, $config )
     {
+        $routeFound == false;
         if( $this->URI['isRoot'] ) {
             if( null !== $config->getRoute("root") ) {
                 include($config->getRoute("root"));
             } else {
                 $posts = $database->getPosts();
                 foreach( $posts as $post ) {
-                    include( 'templates/partials/post.php' );
+                    include( 'app/templates/partials/post.php' );
                 }
             }
         } else {
@@ -58,7 +59,19 @@ class Router {
             if( count($post) > 0 ) {
                 $page = new Page($post[0]);
             } else {
-                include( $config->getRoute("404") );
+                $path = 'app';
+                $files = scandir($path);
+                $files = array_diff(scandir($path), array('.', '..'));
+                foreach( $files as $file ) {
+                    if($file === $this->URI['current'].".php") {
+                        include('app/' . $file);
+                        $routeFound = true;
+                        break;
+                    }
+                }
+                if( !$routeFound )
+                    include( $config->getRoute("404") );
+
             }
 
         }
