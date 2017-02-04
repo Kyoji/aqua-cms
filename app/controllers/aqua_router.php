@@ -15,14 +15,24 @@ class Router {
     ];
 
     public $registered_slugs = [];
+    private $database;
+    private $config;
 
-    function __construct( $database, $config )
+    // THE only instance of the class
+    private static $instance;
+
+    //function __construct( $database, $config )
+    private function __contstruct() {}
+    function __init()
     {
-        $this->populateURI();
-        $this->route( $database, $config );
+        $this->storeURI();
+        $this->database = App::getInstance()->database;
+        $this->config = Config::getInstance();
+        $this->route();
+        echo $this->URI['current'];
     }
 
-    protected function populateURI() {
+    protected function storeURI() {
         $URI = &$this->URI;
         if ( $_SERVER['REQUEST_URI'] != "/" ) {
             $raw = trim( $_SERVER['REQUEST_URI'], '/');
@@ -42,9 +52,16 @@ class Router {
 
     }
 
-    protected function route( $database, $config )
-    {
-        $routeFound == false;
+    /**
+     * 1. Router reads uri
+     * 2.
+     */
+    protected function route()
+    {   
+        $database = $this->database;
+        $config = $this->config;
+        $routeFound = false;
+
         if( $this->URI['isRoot'] ) {
             if( null !== $config->getRoute("root") ) {
                 include($config->getRoute("root"));
@@ -60,7 +77,6 @@ class Router {
                 $page = new Page($post[0]);
             } else {
                 $path = 'app';
-                $files = scandir($path);
                 $files = array_diff(scandir($path), array('.', '..'));
                 foreach( $files as $file ) {
                     if($file === $this->URI['current'].".php") {
@@ -83,4 +99,13 @@ class Router {
         $this->registered_slugs[$slug] = $entity;
     }
 
+    public static function getInstance()
+    {
+        if ( !isset(self::$instance))
+        {
+            self::$instance = new self;
+        }
+
+        return self::$instance;
+    }
 }

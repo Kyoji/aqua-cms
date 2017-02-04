@@ -6,17 +6,18 @@
  * @author Daniel Owens
  */
 
-include('controllers/aqua_config.php');
+namespace Aqua;
 
-$aquaConfig = new AquaConfig();
-$dbValues = [
-    'host' => 'localhost',
-    'db' => 'aqua',
-    'user' => 'root',
-    'pass' => '',
-    'charset' => 'utf8mb4'
-];
-$aquaConfig->setDBConfig( $dbValues );
-$aquaConfig->setRoute("root", $aquaConfig->templatesDir."/home.php");
-$aquaConfig->setRoute("404", $aquaConfig->templatesDir."/404.php");
+//include('app/controllers/aqua_config.php');
+
+//$aquaConfig = \Aqua\Config::getInstance();
+//$dbValues = [
+//    'host' => 'localhost',
+//    'db' => 'aqua',
+//    'user' => 'root',
+//    'pass' => '',
+//    'charset' => 'utf8mb4'
+//];
+//$aquaConfig->setDBConfig( $dbValues );
+
 //print_r($aquaConfig->getDBConfig());

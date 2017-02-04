@@ -3,6 +3,8 @@
  * Homepage for Aqua
  */
 
+$router = \Aqua\Router::getInstance()->URI;
+//print_r($router);
 ?>
 
 <h1>This is home</h1>

@@ -15,25 +15,32 @@ final class App {
 
     public $database;
     public $router;
+    public $config;
+    public $session;
 
-    function __construct()
+    // THE only instance of the class
+    private static $instance;
+
+    private function __construct() {}
+
+    function __init()
     {
         include('app/vendor/autoload.php');
         include('app/controllers/aqua_database.php');
         include('app/controllers/aqua_router.php');
         include('app/controllers/aqua_page.php');
-        include('app/config.php');
+        include('app/controllers/aqua_config.php');
         include('app/models/post.php');
         include('app/controllers/aqua_session.php');
 
-        $this->session = \Aqua\Session::getInstance();
-//        $this->session->__set("logged_in", true);
-
-//        echo $this->session->__get("logged_in");
-
-        $this->database = new MySQLDatabase( $aquaConfig->getDBConfig() );
-        $this->router = new Router( $this->database, $aquaConfig );
-
+        $this->session = Session::getInstance();
+        $this->database = MySQLDatabase::getInstance();
+        $this->config = Config::getInstance();
+        $this->config->__init();
+        //print_r($this->config);
+        $this->database->__init( $this->config->getDBConfig() );
+        $this->router = Router::getInstance();
+        $this->router->__init();
     }
 
     public static function getInstance()
@@ -46,7 +53,8 @@ final class App {
         return self::$instance;
     }
 }
-$aqua = new App();
+$aqua = \Aqua\App::getInstance();
+$aqua->__init();
 
 
 

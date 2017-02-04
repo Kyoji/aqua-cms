@@ -45,8 +45,10 @@ class MySQLDatabase implements Database
 {
 
     protected $mySQLPDO;
+    // THE only instance of the class
+    private static $instance;
 
-    function __construct( $dbValues )
+    function __init( $dbValues )
     {
         $this->mySQLPDO = new AquaPDO( $dbValues );
     }
@@ -89,5 +91,15 @@ class MySQLDatabase implements Database
         $stmt->execute();
 
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public static function getInstance()
+    {
+        if ( !isset(self::$instance))
+        {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
     }
 }

@@ -10,7 +10,7 @@ class Page {
 
     function __construct( $post )
     {
-        include( 'templates/page.php' );
+        include( 'app/templates/page.php' );
     }
 
     function getTitle()

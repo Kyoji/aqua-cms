@@ -7,20 +7,29 @@
  * @author Daniel Owens
  */
 
-interface Config {
-    public function getDBConfig();
-    public function setDBConfig( $dbValues );
-}
+namespace Aqua;
 
-class AquaConfig implements Config {
+class Config {
 
     protected $database;
     public $templatesDir;
     protected $routes;
+    // THE only instance of the class
+    private static $instance;
 
     function __construct()
     {
         $this->templatesDir = "app/templates";
+    }
+
+    public function __init() {
+        $config = $this;
+        $path = 'app/config/';
+        $configFiles = array_diff( scandir($path), ['.','..'] );
+        foreach ( $configFiles as $file )
+        {
+            include( $path.$file );
+        }
     }
 
     public function getRoute( $route )
@@ -43,5 +52,15 @@ class AquaConfig implements Config {
         $this->database['user'] = $dbValues['user'];
         $this->database['pass'] = $dbValues['pass'];
         $this->database['charset'] = $dbValues['charset'];
+    }
+
+    public static function getInstance()
+    {
+        if ( !isset(self::$instance))
+        {
+            self::$instance = new self;
+        }
+
+        return self::$instance;
     }
 }
